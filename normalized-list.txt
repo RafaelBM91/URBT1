@@ -1,0 +1,15 @@
+Article, Aside, Footer, Header, Nav,
+
+Section, FigCaption, Figure, Main, H1,
+
+Hr, Pre, A, Abbr, B,
+
+Strong, Code, Kbd, Samp, Dfn,
+
+Mark, Small, Sub, Sup, Audio,
+
+Video, Img, Svg, Button, Input,
+
+Optgroup, Select, Textarea, Fieldset, Legend,
+
+Progress, Details, Menu, Summary, Canvas
