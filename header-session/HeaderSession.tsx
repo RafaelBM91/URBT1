@@ -5,11 +5,15 @@ import {
     A as NormalizedA
 } from 'normalized-styled-components';
 
+import { HeaderModalRegister } from '../header-modal-register/HeaderModalRegister';
+
 interface Props {
     className?: any;
 }
 
-interface State {}
+interface State {
+    ShowModalRegister?: boolean;
+}
 
 const ComponentLoginContent = styled.div`
     font-size: 16px;
@@ -75,15 +79,38 @@ const ComponentAddPost = styled(NormalizedA)`
 `;
 
 export class ComponentHeaderSession extends React.Component<Props, State> {
+    constructor (props: Props) {
+        super(props);
+
+        this.state = {
+            ShowModalRegister: false,
+        };
+
+        this.changeModalRegister = this.changeModalRegister.bind(this);
+    }
+
+    changeModalRegister () {
+        let { ShowModalRegister } = this.state;
+        this.setState({ ShowModalRegister: !ShowModalRegister });
+    }
+
     render () {
         return (
             <div className={this.props.className}>
                 <ComponentLoginContent>
-                    <ComponentRegister href="#">Regístrate</ComponentRegister>
+                    <ComponentRegister href="javascript:;" onClick={this.changeModalRegister}>Regístrate</ComponentRegister>
                     <ComponentGenericSpan>&nbsp;ó&nbsp;</ComponentGenericSpan>
-                    <ComponentLogin href="#">Ingresa</ComponentLogin>
+                    <ComponentLogin href="javascript:;">Ingresa</ComponentLogin>
                 </ComponentLoginContent>
                 <ComponentAddPost href="https://urbania.pe/publica-tu-aviso/">Publica tu inmueble</ComponentAddPost>
+
+                {
+                    this.state.ShowModalRegister ?
+                        <HeaderModalRegister
+                            changeModalRegister={this.changeModalRegister} /> :
+                        null
+                }
+
             </div>
         );
     }

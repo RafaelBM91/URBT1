@@ -26,7 +26,7 @@ const ComponentItemSubmenu = styled.li`
 `;
 
 interface ComponentLinkSubmenu {
-    className?: any;
+    interbank?: any;
 }
 
 const ComponentLinkSubmenu = styled(NormalizedA)`
@@ -44,7 +44,7 @@ const ComponentLinkSubmenu = styled(NormalizedA)`
     color: #888;
     text-decoration: none;
 
-    ${(props: ComponentLinkSubmenu) => (props.className === 'e-item--sub-interbank') && css`
+    ${(props: ComponentLinkSubmenu) => props.interbank && css`
         color: #009b3a;
     `}
 `;
@@ -58,7 +58,7 @@ export class ComponentHeaderSubmenu extends React.Component<Props, State> {
                         <ComponentItemSubmenu key={id}>
                             <ComponentLinkSubmenu
                                 href={obj.url}
-                                className={ obj.classAdd[0] } >{ obj.name }</ComponentLinkSubmenu>
+                                interbank={ obj.interbank } >{ obj.name }</ComponentLinkSubmenu>
                         </ComponentItemSubmenu>
                     )
                 }

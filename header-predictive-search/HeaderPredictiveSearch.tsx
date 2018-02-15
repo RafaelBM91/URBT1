@@ -235,7 +235,7 @@ export class ComponentHeaderPredictiveSearch extends React.Component<Props, Stat
                     ListSuggestion.push( obj.buscador_ubigeo );
                     ListOriginal.push( obj );
                 })
-                this.setState({ ListSuggestion: ListSuggestion.slice(0, 6), ListOriginal, LoadingInput: false });
+                this.setState({ ListSuggestion: ListSuggestion.slice(0, 6), ListOriginal, LoadingInput: false, InputFocus: true });
 
                 // TEST FOR SPINNER
                 // setTimeout(() => {
@@ -318,12 +318,12 @@ export class ComponentHeaderPredictiveSearch extends React.Component<Props, Stat
             case 38: // press arrow up
                 ttCursor--;
                 if (ttCursor < -1) ttCursor = ptr;
-                this.setState({ ttCursor });
+                this.setState({ InputFocus: (VSearch.length > 2), ttCursor });
             break;
             case 40: // press arrow down
                 ttCursor++;
                 if (ttCursor > ptr) ttCursor = -1;
-                this.setState({ ttCursor });
+                this.setState({ InputFocus: (VSearch.length > 2), ttCursor });
             break;
         }
 
@@ -333,7 +333,11 @@ export class ComponentHeaderPredictiveSearch extends React.Component<Props, Stat
         if (ttCursor === -1) {
             this.setState({ VSearch: SearchOriginal });
         } else {
-            this.setState({ VSearch: ListSuggestion[ttCursor] });
+            if (ListSuggestion.length > 0 && ttCursor <= (ListSuggestion.length - 1) && VSearch.length > 2) {
+                this.setState({ VSearch: ListSuggestion[ttCursor] });
+            } else {
+                this.setState({ ttCursor: -1 });
+            }
         }
     }
 

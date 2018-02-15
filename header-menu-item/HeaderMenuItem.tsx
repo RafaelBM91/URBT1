@@ -17,7 +17,7 @@ interface State {
 }
 
 interface ComponentLinkMenu {
-    classAdd?: Array<string>;
+    interbank?: any;
 }
 
 const ComponentLinkMenu = styled(NormalizedA)`
@@ -37,9 +37,7 @@ const ComponentLinkMenu = styled(NormalizedA)`
     -webkit-box-direction: normal;
     cursor: pointer;
 
-    ${(props: ComponentLinkMenu) => 
-        (props.classAdd.length > 1) ?
-            (props.classAdd[1] === 'e-menu-interbank') && css`
+    ${(props: ComponentLinkMenu) => props.interbank && css`
         color: #44aa5f!important;
         font-weight: 700;
         text-align: center;
@@ -48,7 +46,7 @@ const ComponentLinkMenu = styled(NormalizedA)`
         line-height: 1;
         margin: auto;
         margin-top: 14px!important;
-    ` : css`` }
+    `}
 
     &::after {
         bottom: -1px;
@@ -121,7 +119,7 @@ export class ComponentHeaderMenuItem extends React.Component<Props, State> {
                 className={this.props.className}
                 onMouseOver={this.changeOverItemMenu}
                 onMouseLeave={this.changeLeaveItemMenu} >
-                <ComponentLinkMenu classAdd={this.props.Detail.classAdd}>
+                <ComponentLinkMenu interbank={this.props.Detail.interbank}>
                     { this.props.Detail.name }
                     <ComponenteArrowStatic
                         show={ (this.props.Detail.sub_menu.length > 0) } />
@@ -149,15 +147,13 @@ export const HeaderMenuItem = styled(ComponentHeaderMenuItem)`
     flex: 1 1 auto;
     list-style: none;
     box-sizing: border-box;
-    outline: 0!important;
+    outline: 0!iminterbankportant;
     font-family: bariol-regular;
     -webkit-box-direction: normal;
 
-    ${(props: Props) => 
-        (props.Detail.classAdd.length > 0) ?
-            (props.Detail.classAdd[0] === 'e-menu-interbank') && css`
+    ${(props: Props) => (props.Detail.interbank) && css`
         display: block!important;
-    `: undefined }
+    `}
 
     ${(props: Props) => /* si no tiene submeno no aplica el estilo */
         (props.Detail.sub_menu.length > 0) && css`

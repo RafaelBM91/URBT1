@@ -1,8 +1,6 @@
 import * as React from 'react';
 import styled, { injectGlobal, css } from 'styled-components';
 
-import { ThemeStandar } from '@nova/config/theme';
-
 import { HeaderLogo } from "./header-logo/HeaderLogo";
 import { HeaderPredictiveSearch } from "./header-predictive-search/HeaderPredictiveSearch";
 import { HeaderMenuResponsive } from "./header-menu-responsive/HeaderMenuResponsive";
@@ -12,10 +10,10 @@ import { HeaderSession } from "./header-session/HeaderSession";
 import {
     Header as NormalizedHeader
 } from 'normalized-styled-components';
+import { lchmod } from 'fs';
 
 interface Props {
     className?: any;
-    theme?: ThemeStandar;
 }
 
 interface State {
@@ -172,7 +170,7 @@ export class ComponentHeader extends React.Component<Props, State> {
     render() {
         return(
             <React.Fragment>
-                <NormalizedHeader className={this.props.className}>
+                <NormalizedHeader className={this.props.className} onKeyPress={() => { console.log('hola') }}>
                     <ComponentBWrapHeader>
 
                         <ComponentBSearch>
