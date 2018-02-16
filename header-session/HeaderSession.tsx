@@ -6,6 +6,8 @@ import {
 } from 'normalized-styled-components';
 
 import { HeaderModalRegister } from '../header-modal-register/HeaderModalRegister';
+import { HeaderModalLogin } from '../header-modal-login/HeaderModalLogin';
+import { HeaderModalRecoPass } from '../header-modal-recovery-password/HeaderModalRecoPass';
 
 interface Props {
     className?: any;
@@ -13,6 +15,8 @@ interface Props {
 
 interface State {
     ShowModalRegister?: boolean;
+    ShowModalLogin?: boolean;
+    ShowModalRecoPass?: boolean;
 }
 
 const ComponentLoginContent = styled.div`
@@ -84,33 +88,79 @@ export class ComponentHeaderSession extends React.Component<Props, State> {
 
         this.state = {
             ShowModalRegister: false,
+            ShowModalLogin: false,
+            ShowModalRecoPass: false
         };
 
-        this.changeModalRegister = this.changeModalRegister.bind(this);
+        this.ViewsModalRegister = this.ViewsModalRegister.bind(this);
+        this.ViewModalLogin = this.ViewModalLogin.bind(this);
+        this.ViewModalRecoPass = this.ViewModalRecoPass.bind(this);
+        this.changeModalsRegLog = this.changeModalsRegLog.bind(this);
+        this.changeModalsLogRec = this.changeModalsLogRec.bind(this);
     }
 
-    changeModalRegister () {
+    ViewsModalRegister () {
         let { ShowModalRegister } = this.state;
         this.setState({ ShowModalRegister: !ShowModalRegister });
+    }
+
+    ViewModalLogin () {
+        let { ShowModalLogin } = this.state;
+        this.setState({ ShowModalLogin: !ShowModalLogin });
+    }
+
+    ViewModalRecoPass () {
+        let { ShowModalRecoPass } = this.state;
+        this.setState({ ShowModalRecoPass: !ShowModalRecoPass });
+    }
+
+    changeModalsRegLog () {
+        let { ShowModalRegister, ShowModalLogin } = this.state;
+        ShowModalRegister = !ShowModalRegister;
+        ShowModalLogin = !ShowModalLogin;
+        this.setState({ ShowModalRegister, ShowModalLogin });
+    }
+
+    changeModalsLogRec () {
+        let { ShowModalLogin, ShowModalRecoPass } = this.state;
+        ShowModalLogin = !ShowModalLogin;
+        ShowModalRecoPass = !ShowModalRecoPass;
+        this.setState({ ShowModalLogin, ShowModalRecoPass });
     }
 
     render () {
         return (
             <div className={this.props.className}>
                 <ComponentLoginContent>
-                    <ComponentRegister href="javascript:;" onClick={this.changeModalRegister}>Regístrate</ComponentRegister>
+                    <ComponentRegister href="javascript:;" onClick={this.ViewsModalRegister}>Regístrate</ComponentRegister>
                     <ComponentGenericSpan>&nbsp;ó&nbsp;</ComponentGenericSpan>
-                    <ComponentLogin href="javascript:;">Ingresa</ComponentLogin>
+                    <ComponentLogin href="javascript:;" onClick={this.ViewModalLogin}>Ingresa</ComponentLogin>
                 </ComponentLoginContent>
                 <ComponentAddPost href="https://urbania.pe/publica-tu-aviso/">Publica tu inmueble</ComponentAddPost>
 
                 {
                     this.state.ShowModalRegister ?
                         <HeaderModalRegister
-                            changeModalRegister={this.changeModalRegister} /> :
+                            ViewsModalRegister={this.ViewsModalRegister}
+                            changeModalsRegLog={this.changeModalsRegLog} /> :
                         null
                 }
 
+                {
+                    this.state.ShowModalLogin ?
+                        <HeaderModalLogin
+                            ViewModalLogin={this.ViewModalLogin}
+                            changeModalsRegLog={this.changeModalsRegLog}
+                            changeModalsLogRec={this.changeModalsLogRec} /> :
+                        null
+                }
+                {
+                    this.state.ShowModalRecoPass ?
+                        <HeaderModalRecoPass 
+                            ViewModalRecoPass={this.ViewModalRecoPass}
+                            changeModalsLogRec={this.changeModalsLogRec} /> :
+                        null
+                }
             </div>
         );
     }

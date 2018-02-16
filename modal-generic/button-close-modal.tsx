@@ -68,7 +68,6 @@ export class ComponentButtonCloseModal extends React.Component<Props, State> {
 }
 
 export const ButtonCloseModal = styled(ComponentButtonCloseModal)`
-    padding: 10px 40px 0;
     box-sizing: border-box;
     outline: 0!important;
     word-wrap: break-word;

@@ -1,16 +1,19 @@
 import * as React from 'react';
-import styled, { injectGlobal, css } from 'styled-components';
+import styled, { injectGlobal, css, keyframes } from 'styled-components';
+
+import Animate, { FadeIn, FadeOut } from 'animate-css-styled-components';
+
+import {
+    Header as NormalizedHeader
+} from 'normalized-styled-components';
+import { lchmod } from 'fs';
 
 import { HeaderLogo } from "./header-logo/HeaderLogo";
 import { HeaderPredictiveSearch } from "./header-predictive-search/HeaderPredictiveSearch";
 import { HeaderMenuResponsive } from "./header-menu-responsive/HeaderMenuResponsive";
 import { HeaderMenu } from "./header-menu/HeaderMenu";
 import { HeaderSession } from "./header-session/HeaderSession";
-
-import {
-    Header as NormalizedHeader
-} from 'normalized-styled-components';
-import { lchmod } from 'fs';
+import { HeaderShadow } from "./header-shadow/HeaderShadow";
 
 interface Props {
     className?: any;
@@ -101,32 +104,6 @@ const ComponentBMenu = styled.div`
     }
 `;
 
-interface ComponentShadowHeader {
-    open?: boolean;
-}
-
-const ComponentShadowHeader = styled.div`
-    /* b-shadow-header js-shadow-header */
-    z-index: 1000;
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(65,66,75,.4);
-    box-sizing: border-box;
-    outline: 0!important;
-
-    transition: opacity 200ms ease-in-out;
-
-    ${(p: ComponentShadowHeader) => p.open && css`
-        @media screen and (max-width: 959px) {
-            display: block;
-        }
-    `}
-`;
-
 export class ComponentHeader extends React.Component<Props, State> {
     constructor (props: Props) {
         super(props);
@@ -168,9 +145,12 @@ export class ComponentHeader extends React.Component<Props, State> {
     }
 
     render() {
+        let { ResponsiveOpenSearch, ResponsiveOpenMenu } = this.state;
+        let ShowShadow = ResponsiveOpenSearch || ResponsiveOpenMenu;
+
         return(
             <React.Fragment>
-                <NormalizedHeader className={this.props.className} onKeyPress={() => { console.log('hola') }}>
+                <NormalizedHeader className={this.props.className}>
                     <ComponentBWrapHeader>
 
                         <ComponentBSearch>
@@ -195,9 +175,9 @@ export class ComponentHeader extends React.Component<Props, State> {
                     show={this.state.ResponsiveOpenMenu}
                     changeOpenResponsiveMenu={this.changeOpenResponsiveMenu} />
 
-                <ComponentShadowHeader
-                    open={this.state.ResponsiveOpenSearch || this.state.ResponsiveOpenMenu}
-                    onClick={this.clickShadowHeader} />
+                <HeaderShadow
+                    Show={ (ResponsiveOpenSearch || ResponsiveOpenMenu) }
+                    clickShadowHeader={this.clickShadowHeader} />
 
             </React.Fragment>
         )

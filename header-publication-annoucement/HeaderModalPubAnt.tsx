@@ -5,7 +5,7 @@ import {
     A as NormalizedA
 } from 'normalized-styled-components';
 
-import { ModalGeneric } from '../modal-generic/ModalGeneric';
+import { ModalGeneric } from '../modal-generic/modal-generic';
 
 interface Props {
     className?: any;

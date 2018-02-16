@@ -3,16 +3,18 @@ import styled, { css } from 'styled-components';
 import {
     Img as NormalizedImg,
     A as NormalizedA,
-    Input as NormalizeInput
+    Input as NormalizedInput
 } from 'normalized-styled-components';
 
 import { ModalGeneric } from '../modal-generic/modal-generic';
 import { ButtonCloseModal } from '../modal-generic/button-close-modal';
-import { Component } from 'react';
+import { HeaderSessionLoader } from "../header-session/HeaderSessionLoader";
+import { ButtonFacebook } from "../modal-generic/ButtonFacebook";
 
 interface Props {
     className?: any;
-    changeModalRegister?: any;
+    ViewsModalRegister?: any;
+    changeModalsRegLog?: any;
 }
 
 interface State {
@@ -59,6 +61,10 @@ const ComponentMainModalRegister = styled.div`
     color: #666;
     box-sizing: border-box;
     outline: 0!important;
+`;
+
+const ComponentContentBtnClose = styled.div`
+    padding: 10px 40px 0;
 `;
 
 const ComponentBodyRegister = styled.div`
@@ -171,7 +177,7 @@ interface ComponentInput {
     showError?: boolean;
 }
 
-const ComponentInput = styled(NormalizeInput)`
+const ComponentInput = styled(NormalizedInput)`
     width: 100%;
     height: 40px;
     padding: 12px;
@@ -269,7 +275,7 @@ const ComponentContainerBtn = styled.div`
     word-wrap: break-word;
 `;
 
-const ComponentBtnSubmit = styled(NormalizeInput)`
+const ComponentBtnSubmit = styled(NormalizedInput)`
     border-radius: 2px;
     height: 40px;
     color: #fff;
@@ -316,49 +322,34 @@ const ComponentTermsRegisterLeft = styled.p`
 `;
 
 const ComponentContainerBtnFacebook = styled.div`
-    background: #3b5998;
-    height: 40px;
-    color: #fff;
-    text-align: center;
-    width: 100%;
     position: relative;
     display: block;
     margin-top: 20px;
-    font-family: gotham-medium,arial,sans-serif;
-    font-size: 15px;
+`;
+
+const ComponentFooterRegister = styled.div`
+    background-color: #efeeeb;
+    padding: 16px 0;
     box-sizing: border-box;
     outline: 0!important;
     word-wrap: break-word;
+    font-family: gotham,arial,'sans-serif';
+    font-size: 14px;
+    text-align: center;
+    color: #666;
 `;
 
-const ComponentBtnFacebook = styled(NormalizedA)`
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    height: 100%;
-    color: #fff;
+const ComponentFooterRegisterLink = styled(NormalizedA)`
+    font-family: gotham-medium,arial,sans-serif;
+    font-size: 14px;
+    color: #8a8a8a;
+    border-bottom: 1px solid #8a8a8a;
     text-decoration: none;
-    background-color: transparent;
     box-sizing: border-box;
     outline: 0!important;
-    text-align: center;
-    font-family: gotham-medium,arial,sans-serif;
-    font-size: 15px;
     word-wrap: break-word;
+    text-align: center;
     cursor: pointer;
-`;
-
-const ComponentBtnFacebookImg = styled(NormalizedImg)`
-    border-style: none;
-    box-sizing: border-box;
-    outline: 0!important;
-    color: #fff;
-    text-align: center;
-    font-family: gotham-medium,arial,sans-serif;
-    font-size: 15px;
-    word-wrap: break-word;
 `;
 
 export class ComponentHeaderModalRegister extends React.Component<Props, State> {
@@ -371,8 +362,9 @@ export class ComponentHeaderModalRegister extends React.Component<Props, State> 
             email: '',
             typeErrorEmail: 0,
             clave: '',
+            typeErrorClave: 0,
             reclave: '',
-            typeErrorClave: 0
+            typeErrorReClave: 0
         };
 
         this.changeNombre = this.changeNombre.bind(this);
@@ -457,7 +449,7 @@ export class ComponentHeaderModalRegister extends React.Component<Props, State> 
          * Validacion del campo INPUT ~> CLAVE
          */
         typeErrorClave = (value.length <= 0) ? 1 : typeErrorClave;
-        typeErrorReClave = (reclave.length <= 0) ? 1 : (value !== reclave) ? 2 : (reclave.length < 6) ? 6 : 0;
+        typeErrorReClave = (reclave.length <= 0) ? 1 : (value !== reclave) ? 2 : (reclave.length < 6) ? 3 : 0;
         /**
          * Validacion del campo INPUT ~> CLAVE
          */
@@ -507,10 +499,15 @@ export class ComponentHeaderModalRegister extends React.Component<Props, State> 
         let { nombre, typeErrorNombre, email, typeErrorEmail, clave, typeErrorClave, reclave, typeErrorReClave } = this.state;
 
         return(
-            <ModalGeneric clickModal={this.props.changeModalRegister}>
+            <ModalGeneric clickModal={this.props.ViewsModalRegister}>
                 <ComponentMainModalRegister>
 
-                    <ButtonCloseModal changeEvent={this.props.changeModalRegister}/>
+                    {/* Loader */}
+                    <HeaderSessionLoader Show={false} />
+
+                    <ComponentContentBtnClose>
+                        <ButtonCloseModal changeEvent={this.props.ViewsModalRegister}/>
+                    </ComponentContentBtnClose>
 
                     <ComponentBodyRegister>
 
@@ -521,9 +518,6 @@ export class ComponentHeaderModalRegister extends React.Component<Props, State> 
                             <ComponentRegistrerText>Por favor, ingrese sus datos:</ComponentRegistrerText>
                             
                             <ComponentFormRegister onSubmit={this.FormSubmitPreValidate} action="#">
-
-
-
 
                                 <ComponentContentInput>
                                     <ComponentInput
@@ -542,7 +536,6 @@ export class ComponentHeaderModalRegister extends React.Component<Props, State> 
                                         Por favor, ingrese solo letras.
                                     </ComponentTagError>
                                 </ComponentContentInput>
-
 
                                 <ComponentContentInput>
                                     <ComponentInput
@@ -637,24 +630,27 @@ export class ComponentHeaderModalRegister extends React.Component<Props, State> 
                             </ComponentTermsRegisterLeft>
 
                             <ComponentContainerBtnFacebook>
-                                <ComponentBtnFacebook href="javascript:;" title="Facebook">
-                                    <ComponentBtnFacebookImg
-                                        src="https://cds.urbania.g3c.pe/atomic/img/icon_facebook.png?201802141511"/>
-                                    <span>Ingresar con Facebook</span>
-                                </ComponentBtnFacebook>
+                                <ButtonFacebook />
                             </ComponentContainerBtnFacebook>
 
                         </ComponentRegisterLeft>
 
                     </ComponentBodyRegister>
 
+                    <ComponentFooterRegister>
+                        <span>
+                            Si tienes una cuenta,&nbsp;
+                            <ComponentFooterRegisterLink href="javascript:;" onClick={this.props.changeModalsRegLog}>
+                                ingresa aquí
+                            </ComponentFooterRegisterLink>
+                        </span>
+                    </ComponentFooterRegister>
+
                 </ComponentMainModalRegister>
             </ModalGeneric>
         )
     }
 }
-
-
 
 export const HeaderModalRegister = styled(ComponentHeaderModalRegister)`
 `;
